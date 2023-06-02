@@ -38,7 +38,7 @@ function App() {
 
   return (
     <div className="App">
-      {JSON.stringify(value)}
+      <span>{JSON.stringify(value)}</span>
       <Counter/>
     </div>
   );

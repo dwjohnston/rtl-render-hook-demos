@@ -2,13 +2,16 @@ import { renderHook } from "@testing-library/react-hooks";
 import { useData } from "./myHook";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import { StrictMode } from "react";
 
 describe(useData, () => { 
 
-    const Wrapper = ({children}) => {
-        return <Provider store ={store}>
-            {children}
-        </Provider>
+
+
+    const Wrapper = (props: React.PropsWithChildren<{}>) => {
+        return <StrictMode><Provider store ={store}>
+            {props.children}
+        </Provider></StrictMode>
     }
 
     it.skip("Naive waiting example", async () => {
