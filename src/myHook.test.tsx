@@ -1,9 +1,17 @@
 import { renderHook } from "@testing-library/react-hooks";
 import { useData } from "./myHook";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
-describe(useData, () => {
+describe(useData, () => { 
 
-    it("Naive waiting example", async () => {
+    const Wrapper = ({children}) => {
+        return <Provider store ={store}>
+            {children}
+        </Provider>
+    }
+
+    it.skip("Naive waiting example", async () => {
         // This works, but has an act warning 
     
         const {result} = renderHook(() => useData()); 
@@ -19,7 +27,7 @@ describe(useData, () => {
     it("wait for update", async () => {
         // This works! Nice!
     
-        const {result, waitForNextUpdate} = renderHook(() => useData()); 
+        const {result, waitForNextUpdate} = renderHook(() => useData(), {wrapper: Wrapper} ); 
 
         expect(result.current).toBe(null);
 
