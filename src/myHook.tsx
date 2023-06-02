@@ -1,13 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {dataSlice} from "./redux/store";
+import {dataSlice} from "./redux/slice";
+import { requestDataAction } from "./redux/saga";
 
-export async function getData() : Promise<{data: string}>{
-
-    return new Promise(res => setTimeout(() => res({
-        data: "foo"
-    }), 1000));
-}
 
 export function useData() {
 
@@ -21,9 +16,7 @@ export function useData() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        getData().then((v) => {
-            dispatch(dataSlice.actions.success(v.data)); 
-        })
+            dispatch(requestDataAction()); 
     }, [dispatch]); 
 
     return value; 

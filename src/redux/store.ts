@@ -1,52 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { createSlice } from '@reduxjs/toolkit'
+import createSagaMiddleware from 'redux-saga'
+import mySaga from './saga'
+import { counterSlice, dataSlice } from './slice';
 
-export const dataSlice = createSlice({
-    name: 'data',
-    initialState: {
-      value: null as string | null,
-    },
-    reducers: {
-      success: (state, action) => {
 
-        console.log(state, action)
-        // Redux Toolkit allows us to write "mutating" logic in reducers. It
-        // doesn't actually mutate the state because it uses the Immer library,
-        // which detects changes to a "draft state" and produces a brand new
-        // immutable state based off those changes
-        state.value = action.payload
-      },
+const sagaMiddleware = createSagaMiddleware();
 
-    },
-  })
-
-  export const counterSlice = createSlice({
-    name: 'counter',
-    initialState: {
-      value: 0,
-    },
-    reducers: {
-      increment: (state) => {
-        // Redux Toolkit allows us to write "mutating" logic in reducers. It
-        // doesn't actually mutate the state because it uses the Immer library,
-        // which detects changes to a "draft state" and produces a brand new
-        // immutable state based off those changes
-        state.value += 1
-      },
-      decrement: (state) => {
-        state.value -= 1
-      },
-      incrementByAmount: (state, action) => {
-        state.value += action.payload
-      },
-    },
-  })
-  export const { increment, decrement, incrementByAmount } = counterSlice.actions
-
-export default configureStore({
+const store = configureStore({
+  middleware: (getDefaultMiddleWare) => getDefaultMiddleWare().concat(sagaMiddleware),
   reducer: {
     data: dataSlice.reducer,
     counter: counterSlice.reducer,
 
   },
 })
+sagaMiddleware.run(mySaga)
+
+export default store; 

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { getData, useData } from './myHook';
-import { dataSlice, decrement, increment } from './redux/store';
+import {  useData } from './myHook';
+import {  decrement, increment } from './redux/slice';
 import { useDispatch, useSelector } from 'react-redux';
 
 export function Counter() {
